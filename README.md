@@ -1,18 +1,70 @@
 # ASP.NET Core 5 - Dependency Injection
 
+<https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-5.0>
+
+## Lifetimes
+
+<https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-lifetimes>
+
+## Service Registrattion Methods
+
+The framework provides service registration extension methods that are useful in specific scenarios:
+
+- Automatic object disposal
+- Multiple implementation for same Interface
+- Pass Args
+
+<https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-registration-methods>
+
+## ActivatorUtilities
+
+<https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.activatorutilities?view=dotnet-plat-ext-5.0>
+
+## Decorators in .NET Core with Dependency Injection
+
+<https://greatrexpectations.com/2018/10/25/decorators-in-net-core-with-dependency-injection>
+
 ## Multiple implementation for same Interface
+
+Examples: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-registration-methods>
+
+Definition:
+
+```cs
+services.AddSingleton<IMessageWriter, ConsoleMessageWriter>();
+services.AddSingleton<IMessageWriter, LoggingMessageWriter>();
+```
+
+Injection:
+
+```cs
+    public class ExampleService
+    {
+        public ExampleService(
+            IMessageWriter messageWriter,
+            IEnumerable<IMessageWriter> messageWriters)
+        {
+            Trace.Assert(messageWriter is LoggingMessageWriter);
+            var dependencyArray = messageWriters.ToArray();
+            Trace.Assert(dependencyArray[0] is ConsoleMessageWriter);
+            Trace.Assert(dependencyArray[1] is LoggingMessageWriter);
+        }
+    }
+```
+
+## Multiple implementation for same Interface (specific version)
 
 In SimpleInjector, this was very easy:
 
 ```cs
-container.Collection.Register<IMyService>(new[] { typeof(ServiceA) });
+container.Collection.Register<IMyService>(new[] { typeof(ServiceA), typeof(ServiceB), typeof(ServiceC) });
 ```
 
 Usage:
 
 ```cs
 public NotificationProcessor(IMyService[] producers)
-		{...}
+    {...}
 ```
 
 In the built-in Dependency Injection of ASP.NET Core 3, we need a little workaround for this:
@@ -62,3 +114,8 @@ public class MyConsumer
     }
 }
 ```
+
+## Information
+
+- DI in .NET: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage>
+- DI Guidelines: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines>
