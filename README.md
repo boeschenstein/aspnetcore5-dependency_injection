@@ -6,6 +6,17 @@
 
 <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-lifetimes>
 
+- Transient
+    - new on every request (injection)
+    - most common
+- Singleton
+    - 1 instance only
+    - only if you have a good reason
+- Scoped
+    - 1x per scope ("one instance per web request")
+    - hardly used
+    - possible example: DBContext
+
 ## Service Registrattion Methods
 
 The framework provides service registration extension methods that are useful in specific scenarios:
