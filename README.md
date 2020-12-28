@@ -1,10 +1,6 @@
-# aspnetcore5-dependency_injection
-ASP.NET Core 5 - Dependency Injection
+# ASP.NET Core 5 - Dependency Injection
 
-
-## Dependency Injection (DI)
-
-### Multiple implementation for same Interface
+## Multiple implementation for same Interface
 
 In SimpleInjector, this was very easy:
 
