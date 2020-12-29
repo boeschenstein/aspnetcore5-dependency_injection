@@ -17,7 +17,7 @@
     - hardly used
     - possible example: DBContext
 
-## Service Registrattion Methods
+## Service Registration Methods
 
 The framework provides service registration extension methods that are useful in specific scenarios:
 
@@ -27,6 +27,13 @@ The framework provides service registration extension methods that are useful in
 
 <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-registration-methods>
 
+## Registration Factory
+
+```cs
+// IOtherService get intatiated not before IService is requested
+services.AddTransient<IService>(sp => new ServiceImpl(sp.GetRequiredService<IOtherService>));
+```
+
 ## ActivatorUtilities
 
 <https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.dependencyinjection.activatorutilities?view=dotnet-plat-ext-5.0>
@@ -35,6 +42,27 @@ The framework provides service registration extension methods that are useful in
 
 <https://greatrexpectations.com/2018/10/25/decorators-in-net-core-with-dependency-injection>
 
+## Generic Type registration
+
+```cs
+IServiceCollection services = new ServiceCollection();
+ 
+services.AddTransient<MyClassWithValue>();
+services.AddTransient(typeof(IMyGeneric<>), typeof(MyGeneric<>));
+ 
+var serviceProvider = services.BuildServiceProvider();
+ 
+var service = serviceProvider.GetService<IMyGeneric<MyClassWithValue>>();
+```
+
+## Parameter injection
+
+```cs
+public IActionResult Index([FromServices] IService svc)
+{
+}
+```
+
 ## Multiple implementation for same Interface
 
 Examples: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-registration-methods>
@@ -42,8 +70,8 @@ Examples: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-in
 Definition:
 
 ```cs
-services.AddSingleton<IMessageWriter, ConsoleMessageWriter>();
-services.AddSingleton<IMessageWriter, LoggingMessageWriter>();
+services.AddSingleton<IMessageWriter, ConsoleMessageWriter>(); // other lifetime allowed
+services.AddSingleton<IMessageWriter, LoggingMessageWriter>(); // other lifetime allowed
 ```
 
 Injection:
