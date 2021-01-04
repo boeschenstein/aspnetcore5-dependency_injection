@@ -57,14 +57,6 @@ var serviceProvider = services.BuildServiceProvider();
 var service = serviceProvider.GetService<IMyGeneric<MyClassWithValue>>();
 ```
 
-## Parameter injection
-
-```cs
-public IActionResult Index([FromServices] IService svc)
-{
-}
-```
-
 ## Multiple implementation for same Interface
 
 Examples: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#service-registration-methods>
@@ -156,7 +148,16 @@ public class MyConsumer
 }
 ```
 
+## Parameter injection
+
+```cs
+public IActionResult Index([FromServices] IService svc)
+{
+}
+```
+
 ## Information
 
 - DI in .NET: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage>
 - DI Guidelines: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines>
+- Configuration: https://github.com/boeschenstein/aspnetcore3-configuration
