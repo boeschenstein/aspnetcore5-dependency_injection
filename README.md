@@ -148,6 +148,49 @@ public class MyConsumer
 }
 ```
 
+## Static class injection
+
+Source: <https://www.strathweb.com/2016/12/accessing-httpcontext-outside-of-framework-components-in-asp-net-core/>
+
+(indirectly) use DI in a static class:
+
+```cs
+public static class MyStaticLib
+{
+    private static IHttpContextAccessor _httpContextAccessor;
+    public static void Configure(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+    public static HttpContext HttpContext => _httpContextAccessor.HttpContext;
+    // ...
+}
+```
+
+`DI helper` method:
+
+```cs
+public static class AppConfig
+{
+    public static void ConfigureMyStaticLib(IApplicationBuilder app)
+    {
+        var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
+        Configure(httpContextAccessor);
+    }
+}
+```
+
+Call `DI helper` in Startup.cs:
+
+```cs
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    // ...
+    ConfigureMyStaticLib(app);
+    //or app.ConfigureMyStaticLib(); if you set it up as an extension
+}
+```
+
 ## Parameter injection
 
 ```cs
