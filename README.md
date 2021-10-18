@@ -148,6 +148,51 @@ public class MyConsumer
 }
 ```
 
+## Service Locator
+
+<https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines#scoped-service-as-singleton>
+
+```cs
+static void ScopedServiceBecomesSingleton()
+{
+    var services = new ServiceCollection();
+    services.AddScoped<Bar>();
+
+    using ServiceProvider serviceProvider = services.BuildServiceProvider(validateScopes: true);
+    using (IServiceScope scope = serviceProvider.CreateScope())
+    {
+        // Correctly scoped resolution
+        Bar correct = scope.ServiceProvider.GetRequiredService<Bar>();
+    }
+
+    // Not within a scope, becomes a singleton
+    Bar avoid = serviceProvider.GetRequiredService<Bar>();
+}
+```
+
+## Per Request Injection
+
+<https://docs.microsoft.com/en-us/aspnet/core/fundamentals/middleware/write?view=aspnetcore-5.0#per-request-middleware-dependencies>
+
+```cs
+public class CustomMiddleware
+{
+    private readonly RequestDelegate _next;
+
+    public CustomMiddleware(RequestDelegate next)
+    {
+        _next = next;
+    }
+
+    // IMyScopedService is injected into Invoke
+    public async Task Invoke(HttpContext httpContext, IMyScopedService svc)
+    {
+        svc.MyProperty = 1000;
+        await _next(httpContext);
+    }
+}
+```
+
 ## Static class injection
 
 Source: <https://www.strathweb.com/2016/12/accessing-httpcontext-outside-of-framework-components-in-asp-net-core/>
