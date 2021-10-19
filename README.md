@@ -219,7 +219,8 @@ public static class AppConfig
 {
     public static void ConfigureMyStaticLib(IApplicationBuilder app)
     {
-        var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>();
+        // if you get error "Cannot resolve from root provider because it requires scoped service", see below
+        var httpContextAccessor = app.ApplicationServices.GetRequiredService<IHttpContextAccessor>(); 
         Configure(httpContextAccessor);
     }
 }
@@ -242,6 +243,25 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 public IActionResult Index([FromServices] IService svc)
 {
 }
+```
+
+## Issues and Solution
+
+### Cannot resolve from root provider because it requires scoped service
+
+from: <https://www.iaspnetcore.com/blog/blogpost/5f7b94ef46976901de2a1ea0>
+
+old:
+
+```cs
+var service = app.ApplicationServices.GetService<IUniqueIdService>();
+```
+
+new:
+
+```cs
+var scope = app.ApplicationServices.CreateScope();
+var service = scope.ServiceProvider.GetService<IUniqueIdService>();
 ```
 
 ## Information
