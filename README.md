@@ -148,7 +148,7 @@ public class MyConsumer
 }
 ```
 
-## Service Locator
+## Service Locator (not recommended)
 
 <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines#scoped-service-as-singleton>
 
@@ -207,7 +207,13 @@ public static class MyStaticLib
     {
         _httpContextAccessor = httpContextAccessor;
     }
-    public static HttpContext HttpContext => _httpContextAccessor.HttpContext;
+    
+    // alternative approach (IServiceProvider for service locator needed / no DI helper needed)
+    private static IServiceProvider _serviceProvider;
+    public static void Configure(IApplicationBuilder app)
+    {
+        _serviceProvider = app.ApplicationServices.GetRequiredService<IServiceProvider>();
+    }
     // ...
 }
 ```
