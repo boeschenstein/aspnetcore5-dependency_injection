@@ -242,6 +242,12 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     //or app.ConfigureMyStaticLib(); if you set it up as an extension
 }
 ```
+## cshtml injection (MVC, Razor Page)
+
+```cs
+using var scope = (((Microsoft.AspNetCore.Http.DefaultHttpContext)this.Context).ServiceScopeFactory).CreateScope();
+var options = scope.ServiceProvider.GetRequiredService<IOptions<MyOptions>>();
+```
 
 ## Parameter injection
 
