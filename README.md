@@ -259,7 +259,7 @@ public IActionResult Index([FromServices] IService svc)
 
 ## Issues and Solution
 
-### Cannot resolve from root provider because it requires scoped service
+### Cannot resolve ... from root provider because it requires scoped service ...
 
 from: <https://www.iaspnetcore.com/blog/blogpost/5f7b94ef46976901de2a1ea0>
 
