@@ -281,3 +281,4 @@ var service = scope.ServiceProvider.GetService<IUniqueIdService>();
 - DI in .NET: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage>
 - DI Guidelines: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines>
 - Configuration: https://github.com/boeschenstein/aspnetcore3-configuration
+- Advanced Examples from David Fowlwer: <https://github.com/davidfowl/DotNetCodingPatterns/blob/main/1.md>
