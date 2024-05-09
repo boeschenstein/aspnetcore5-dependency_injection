@@ -87,6 +87,12 @@ Injection:
 
 ## Multiple implementation for same Interface (specific version)
 
+### New in .NET 8: Keyed Service
+
+<https://andrewlock.net/exploring-the-dotnet-8-preview-keyed-services-dependency-injection-support/>
+
+### Old solution
+
 In SimpleInjector, this was very easy:
 
 ```cs
