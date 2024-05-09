@@ -282,9 +282,17 @@ var scope = app.ApplicationServices.CreateScope();
 var service = scope.ServiceProvider.GetService<IUniqueIdService>();
 ```
 
+### How to inject logger in static function in ASP.NET
+
+```cs
+ILoggerFactory loggerFactory = context.HttpContext.RequestServices.GetRequiredService<ILoggerFactory>();
+ILogger logger = loggerFactory.CreateLogger("whatever");
+```
+
 ## Information
 
 - DI in .NET: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage>
 - DI Guidelines: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines>
 - Configuration: https://github.com/boeschenstein/aspnetcore3-configuration
+- HTTP Logging: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-logging/>
 - Advanced Examples from David Fowlwer: <https://github.com/davidfowl/DotNetCodingPatterns/blob/main/1.md>
