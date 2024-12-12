@@ -263,6 +263,23 @@ public IActionResult Index([FromServices] IService svc)
 }
 ```
 
+## injection variant to fix amazon s3 client for minio
+
+from <https://www.maxcode.net/blog/using-localstack-for-development-environments/>
+
+```cs
+AmazonS3Client amazonS3 = new AmazonS3Client(
+    new BasicAWSCredentials("AccessKey", "SecretKey"),
+    new AmazonS3Config
+    {
+        RegionEndpoint = Amazon.RegionEndpoint.GetBySystemName("eu-central-1"), // optional for minio
+        ServiceURL = "http://localhost:9000", // MUST BE SET AFTER RegionEndpoint
+        ForcePathStyle = true, // absolutely needed for minio
+    }
+);
+builder.Services.AddSingleton(typeof(IAmazonS3), provider => amazonS3);
+```
+
 ## Issues and Solution
 
 ### Cannot resolve ... from root provider because it requires scoped service ...
