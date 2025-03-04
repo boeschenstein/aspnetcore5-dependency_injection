@@ -89,7 +89,8 @@ Injection:
 
 ### New in .NET 8: Keyed Service
 
-<https://andrewlock.net/exploring-the-dotnet-8-preview-keyed-services-dependency-injection-support/>
+- <https://andrewlock.net/exploring-the-dotnet-8-preview-keyed-services-dependency-injection-support/>
+- <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?view=aspnetcore-8.0#keyed-services>
 
 ### Old solution
 
