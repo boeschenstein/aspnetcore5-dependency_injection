@@ -307,10 +307,24 @@ ILoggerFactory loggerFactory = context.HttpContext.RequestServices.GetRequiredSe
 ILogger logger = loggerFactory.CreateLogger("whatever");
 ```
 
+### Dynamic injection resolution (like in BackgroundService)
+
+BackgroundServices resolve services only 1x.
+Solution, if you need dynamic resolution:
+
+```
+public class TestClass(IServiceScopeFactory serviceScopeFactory) : BackgroundService
+{
+    using IServiceScope scope = serviceScopeFactory.CreateScope();
+    IMyService myService = scope.ServiceProvider.GetRequiredService<IMyService>();
+    ...
+}
+```
+
 ## Information
 
 - DI in .NET: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage>
 - DI Guidelines: <https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines>
-- Configuration: https://github.com/boeschenstein/aspnetcore3-configuration
+- Configuration: <https://github.com/boeschenstein/aspnetcore3-configuration>
 - HTTP Logging: <https://learn.microsoft.com/en-us/aspnet/core/fundamentals/http-logging/>
 - Advanced Examples from David Fowlwer: <https://github.com/davidfowl/DotNetCodingPatterns/blob/main/1.md>
